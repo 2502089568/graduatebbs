@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.graduatebbs.mapper.TopicMapper">
+    <resultMap id="BaseResultMap" type="com.zz.graduatebbs.pojo.Topic">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
+        <result column="like_num" property="likeNum" jdbcType="BIGINT"/>
+        <result column="is_top" property="isTop" jdbcType="INTEGER"/>
+        <result column="is_good" property="isGood" jdbcType="INTEGER"/>
+        <result column="is_end" property="isEnd" jdbcType="INTEGER"/>
+        <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="topic_category" property="topicCategory" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="pic_url" property="picUrl" jdbcType="VARCHAR"/>
+        <result column="user_nickname" property="userNickname" jdbcType="VARCHAR"/>
+        <result column="user_pic_url" property="userPicUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getTopTopic" resultMap="BaseResultMap">
+        select * from tb_topic where is_top=0 and is_delete=1 order by create_time desc limit 4
+    </select>
+
+    <select id="getHotTopic" resultMap="BaseResultMap" >
+        select * from tb_topic where is_delete=1 order by create_time desc
+    </select>
+
+    <select id="getTopicById" resultMap="BaseResultMap" >
+        select * from tb_topic where is_delete=1 and id=#{topicId}
+    </select>
+    
+    <select id="getTopicCount" >
+        select count(*) from tb_topic where is_delete=1
+    </select>
+
+    <select id="getTopicByUserId" resultMap="BaseResultMap" >
+      select * from tb_topic where is_delete=1 and user_id=#{userId}
+    </select>
+
+</mapper>

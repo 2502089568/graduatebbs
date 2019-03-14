@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.graduatebbs.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.zz.graduatebbs.pojo.Comment">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="topic_id" property="topicId" jdbcType="VARCHAR"/>
+        <result column="comment_content" property="commentContent" jdbcType="VARCHAR"/>
+        <result column="like_num" property="likeNum" jdbcType="BIGINT"/>
+        <result column="is_choose" property="isChoose" jdbcType="INTEGER"/>
+        <result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
+        <result column="comment_time" property="commentTime" jdbcType="TIMESTAMP"/>
+        <result column="user_nickname" property="userNickname" jdbcType="VARCHAR"/>
+        <result column="user_pic_url" property="userPicUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getTopicComment" resultMap="BaseResultMap" parameterType="long">
+        select * from tb_comment where topic_id=#{topicId} and is_delete=1
+    </select>
+
+    <select id="getTopicCommentCount" parameterType="long">
+        select count(*) from tb_comment where topic_id=#{topicId} and is_delete=1
+    </select>
+
+    <select id="getHotTopicComment" resultMap="BaseResultMap" parameterType="long">
+        select * from tb_comment where topic_id=#{topicId} and is_delete=1 order by like_num desc limint 2
+    </select>
+
+    <select id="getUserTopicComment" resultMap="BaseResultMap">
+      select * from tb_comment where topic_id=#{topicId} and user_id=#{userId} and is_delete=1
+    </select>
+
+    <select id="getUserTopicCommentCount" >
+      select count(*) from tb_comment where topic_id=#{topicId} and user_id=#{userId} and is_delete=1
+    </select>
+</mapper>
